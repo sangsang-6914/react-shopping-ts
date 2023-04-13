@@ -9,6 +9,7 @@ import Products from './pages/Products';
 import NotFound from './components/NotFound';
 import './index.css';
 import App from './App';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -26,9 +27,30 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       { path: '/products', element: <Products /> },
-      { path: '/products/:id', element: <ProductDetail /> },
-      { path: '/products/new', element: <NewProduct /> },
-      { path: '/carts', element: <MyCart /> },
+      {
+        path: '/products/:id',
+        element: (
+          <ProtectedRoute>
+            <ProductDetail />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/products/new',
+        element: (
+          <ProtectedRoute requiredAdmin>
+            <NewProduct />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/carts',
+        element: (
+          <ProtectedRoute>
+            <MyCart />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 ]);
