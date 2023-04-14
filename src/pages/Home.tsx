@@ -1,7 +1,14 @@
 import React from 'react';
+import Banner from '../components/Banner';
+import Products from './Products';
 
 function Home() {
-  return <div className="text-brand font-bold">Home</div>;
+  return (
+    <>
+      <Banner />
+      <Products />
+    </>
+  );
 }
 
 export default Home;

@@ -1,4 +1,4 @@
-// Import the functions you need from the SDKs you need
+import { IProduct } from './../interface/product';
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
@@ -7,23 +7,14 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
-import { getAnalytics } from 'firebase/analytics';
 import { ref, set, get, getDatabase } from 'firebase/database';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { v4 as uuid } from 'uuid';
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyBrd6G-4ugBkgeln1RfHDLO5yoNRJ9i30s',
-  authDomain: 'sangshop-8c6ab.firebaseapp.com',
-  databaseURL:
-    'https://sangshop-8c6ab-default-rtdb.asia-southeast1.firebasedatabase.app',
-  projectId: 'sangshop-8c6ab',
-  storageBucket: 'sangshop-8c6ab.appspot.com',
-  messagingSenderId: '923430359659',
-  appId: '1:923430359659:web:158b088b8776a2af8c172e',
-  measurementId: 'G-64ED80KLRC',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DB_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
 };
 
 const provider = new GoogleAuthProvider();
@@ -66,4 +57,16 @@ async function adminUser(user: any) {
         return { ...user, isAdmin };
       }
     });
+}
+
+export async function writeProduct(product: IProduct) {
+  const id = uuid();
+  const updatedProduct = {
+    ...product,
+    id,
+    price: parseInt(product.price),
+    options: product.options.split(','),
+  };
+  console.log(updatedProduct);
+  return set(ref(database, `products/${id}`), updatedProduct);
 }
