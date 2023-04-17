@@ -1,3 +1,4 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { writeProduct } from '../api/firebase';
@@ -34,18 +35,28 @@ function NewProduct() {
       file: '',
     },
   });
+  const client = useQueryClient();
+  const addProduct = useMutation(
+    (product: any) => {
+      return writeProduct(product);
+    },
+    {
+      onSuccess: () => {
+        setSuccess('제품이 등록되었습니다.');
+        client.invalidateQueries(['products']);
+        setIsUploading(false);
+        setTimeout(() => {
+          setSuccess(null);
+        }, 3000);
+      },
+    }
+  );
   const registProduct = (data: IForm) => {
     setIsUploading(true);
     delete data.file;
     imageUpload(file).then((url) => {
       const product = { ...data, image: url };
-      writeProduct(product).then(() => {
-        setSuccess('제품이 등록되었습니다.');
-        setIsUploading(false);
-        setTimeout(() => {
-          setSuccess(null);
-        }, 3000);
-      });
+      addProduct.mutate(product);
     });
   };
 

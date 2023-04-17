@@ -7,7 +7,7 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
-import { ref, set, get, getDatabase } from 'firebase/database';
+import { ref, set, get, getDatabase, remove } from 'firebase/database';
 import { v4 as uuid } from 'uuid';
 
 const firebaseConfig = {
@@ -69,4 +69,31 @@ export async function writeProduct(product: IProduct) {
   };
   console.log(updatedProduct);
   return set(ref(database, `products/${id}`), updatedProduct);
+}
+
+export async function getProducts() {
+  return get(ref(database, 'products')) //
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const products = Object.values(snapshot.val());
+        return products;
+      }
+    });
+}
+
+export async function addOrUpdateCart(uid: string, product: any) {
+  return set(ref(database, `carts/${uid}/${product.id}`), product);
+}
+
+export async function getCarts(uid: string) {
+  return get(ref(database, `carts/${uid}`)) //
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return Object.values(snapshot.val()) || [];
+      }
+    });
+}
+
+export async function removeFromCart(uid: string, productId: string) {
+  return remove(ref(database, `carts/${uid}/${productId}`));
 }
