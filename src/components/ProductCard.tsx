@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IProductProps } from '../interface/product';
 
@@ -13,14 +12,14 @@ function ProductCard({
   return (
     <li
       onClick={handleClick}
-      className="shadow-md flex flex-col cursor-pointer hover:scale-105 transition-all"
+      className="rounded-lg shadow-md overflow-hidden cursor-pointer hover:scale-105 transition-all"
     >
       <img src={image} alt={title} />
-      <div className="flex justify-between px-2 text-xl">
+      <div className="flex justify-between px-2 text-lg">
         <p>{title}</p>
         <p>₩{price}</p>
       </div>
-      <p className="p-2 text-gray-400">{category}</p>
+      <p className="mb-2 px-2 text-gray-600">{category}</p>
     </li>
   );
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Button from '../components/Button';
@@ -28,22 +27,22 @@ function ProductDetail() {
   return (
     <>
       <p className="p-3 text-2xl text-gray-400 font-bold">{category}</p>
-      <div className="flex flex-col md:flex-row">
-        <div className="basis-7/12">
+      <section className="flex flex-col md:flex-row p-4">
+        <div className="basis-7/12 px-4">
           <img className="w-full h-full" src={image} alt={title} />
         </div>
-        <div className="basis-5/12 flex flex-col p-4">
-          <h1 className="text-2xl font-bold">{title}</h1>
-          <p className="text-xl font-bold border-b border-gray-400 py-2">
+        <div className="w-full basis-5/12 flex flex-col p-4">
+          <h1 className="text-3xl font-bold py-2">{title}</h1>
+          <p className="text-2xl font-bold border-b border-gray-400 py-2">
             ₩{price}
           </p>
-          <p className="py-2">{description}</p>
-          <div className="flex items-center my-5">
+          <p className="pt-4 pb-1 text-lg">{description}</p>
+          <div className="flex items-center">
             <p className="text-brand font-bold">옵션: </p>
             <select
               value={selected}
               onChange={(e) => setSelected(e.target.value)}
-              className="outline-dashed border-brand flex-1 mx-2 p-1"
+              className="border-dashed border-brand p-2 m-4 flex-1 border-2 outline-none"
             >
               {options &&
                 options.map((option: any) => (
@@ -54,7 +53,7 @@ function ProductDetail() {
           {success && <p className="font-bold my-2">{success}</p>}
           <Button onClick={handleClick} text="장바구니에 추가" />
         </div>
-      </div>
+      </section>
     </>
   );
 }

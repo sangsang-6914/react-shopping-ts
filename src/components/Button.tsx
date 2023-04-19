@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface IButtonProps {
   text: string;
   onClick?: () => void;
@@ -12,7 +10,7 @@ function Button({ text, onClick, buttonStyle, disabled }: IButtonProps) {
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`${buttonStyle} bg-brand p-3 text-white hover:brightness-110`}
+      className={`${buttonStyle} bg-brand py-2 px-4 text-white rounded-sm hover:brightness-110`}
     >
       {text}
     </button>

@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React from 'react';
 import { getProducts, writeProduct } from '../api/firebase';
 
 function useProducts() {

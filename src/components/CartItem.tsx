@@ -1,4 +1,3 @@
-import React from 'react';
 import { IProductProps } from '../interface/product';
 import { AiOutlinePlusSquare, AiOutlineMinusSquare } from 'react-icons/ai';
 import { HiTrash } from 'react-icons/hi';

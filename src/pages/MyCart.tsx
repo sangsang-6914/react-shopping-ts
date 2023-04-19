@@ -1,4 +1,3 @@
-import React from 'react';
 import CartItem from '../components/CartItem';
 import PriceCard from '../components/PriceCard';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
@@ -20,9 +19,11 @@ function MyCart() {
     );
 
   return (
-    <section className="p-4 flex flex-col">
-      <p className="text-center text-xl font-bold my-3">내 장바구니</p>
-      <ul className="border-y border-gray-300 p-3">
+    <section className="p-8 flex flex-col">
+      <p className="ttext-2xl text-center font-bold pb-4 border-b border-gray-300">
+        내 장바구니
+      </p>
+      <ul className="border-b border-gray-300 mb-8 p-4 px-8">
         {products ? (
           products.map((product: any) => (
             <CartItem key={product.id} product={product} />
@@ -31,7 +32,7 @@ function MyCart() {
           <p>장바구니가 비었습니다.</p>
         )}
       </ul>
-      <div className="flex justify-between p-10 items-center">
+      <div className="flex justify-between items-center px-2 md:p-8 lg:px-16 mb-6">
         <PriceCard text="상품 총액" price={totalPrice} />
         <BsFillPlusCircleFill />
         <PriceCard text="배송액" price={DELIVERY_FEE} />

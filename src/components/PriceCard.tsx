@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface IPriceCardProps {
   text: string;
   price: number;
@@ -7,9 +5,9 @@ interface IPriceCardProps {
 
 function PriceCard({ text, price }: IPriceCardProps) {
   return (
-    <div className="p-5 flex flex-col items-center justify-center bg-gray-100">
+    <div className="bg-gray-50 p-8 mx-2 rounded-2xl text-center text-lg md:text-xl">
       <p>{text}</p>
-      <p className="text-brand font-bold">₩{price}</p>
+      <p className="font-bold text-brand text-xl">{price}</p>
     </div>
   );
 }
