@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Button from '../components/Button';
+import { useAuth } from '../context/AuthContextProvider';
 import useCarts from '../hooks/useCarts';
 
 function ProductDetail() {
   const { state: product } = useLocation();
+  const { user } = useAuth();
   const { title, description, price, options, category, image } = product;
   const [selected, setSelected] = useState<string>(options[0]);
   const [success, setSuccess] = useState<string | null>(null);
@@ -51,7 +53,11 @@ function ProductDetail() {
             </select>
           </div>
           {success && <p className="font-bold my-2">{success}</p>}
-          <Button onClick={handleClick} text="장바구니에 추가" />
+          <Button
+            disabled={!!!user}
+            onClick={handleClick}
+            text="장바구니에 추가"
+          />
         </div>
       </section>
     </>
