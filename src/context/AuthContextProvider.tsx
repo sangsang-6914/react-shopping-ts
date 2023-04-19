@@ -16,7 +16,6 @@ function AuthContextProvider({ children }: any) {
 
   useEffect(() => {
     checkLoginUser((user: any) => {
-      console.log(user);
       setUser(user);
     });
   }, []);

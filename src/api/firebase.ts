@@ -67,7 +67,6 @@ export async function writeProduct(product: IProduct) {
     price: parseInt(product.price),
     options: product.options.split(','),
   };
-  console.log(updatedProduct);
   return set(ref(database, `products/${id}`), updatedProduct);
 }
 

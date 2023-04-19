@@ -1,40 +1,29 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { addOrUpdateCart } from '../api/firebase';
 import Button from '../components/Button';
-import { useAuth } from '../context/AuthContextProvider';
+import useCarts from '../hooks/useCarts';
 
 function ProductDetail() {
   const { state: product } = useLocation();
-  const { user } = useAuth();
   const { title, description, price, options, category, image } = product;
   const [selected, setSelected] = useState<string>(options[0]);
   const [success, setSuccess] = useState<string | null>(null);
-  const client = useQueryClient();
-  const addUpdateCart = useMutation(
-    (product) => {
-      return addOrUpdateCart(user.uid, product);
-    },
-    {
-      onSuccess: () => {
-        setSuccess('장바구니에 추가되었습니다.');
-        client.invalidateQueries(['carts', user.uid]);
-        setTimeout(() => {
-          setSuccess(null);
-        }, 3000);
-      },
-    }
-  );
+  const { addUpdateCart } = useCarts();
   const handleClick = () => {
     const updatedProduct = {
       ...product,
       quantity: 1,
       option: selected,
     };
-    addUpdateCart.mutate(updatedProduct);
-    console.log(updatedProduct);
+    addUpdateCart.mutate(updatedProduct, {
+      onSuccess: () => {
+        setSuccess('장바구니에 추가되었습니다.');
+        setTimeout(() => {
+          setSuccess(null);
+        }, 3000);
+      },
+    });
   };
   return (
     <>

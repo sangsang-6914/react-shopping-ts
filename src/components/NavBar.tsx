@@ -5,20 +5,15 @@ import { Link } from 'react-router-dom';
 import Button from './Button';
 import { useAuth } from '../context/AuthContextProvider';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { useQuery } from '@tanstack/react-query';
-import { getCarts } from '../api/firebase';
+import useCarts from '../hooks/useCarts';
 
 const NAV_ITEM_CLASS = 'hover:text-brand';
 
 function NavBar() {
   const { user, login, logout } = useAuth();
-  const { data: products } = useQuery(
-    ['carts', user?.uid || ''],
-    () => getCarts(user?.uid),
-    {
-      enabled: !!user?.uid,
-    }
-  );
+  const {
+    fetchCart: { data: products },
+  } = useCarts();
   const handleLogin = () => {
     login().catch((err: any) => {
       console.error(err);

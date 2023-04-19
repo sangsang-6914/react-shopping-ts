@@ -1,31 +1,24 @@
-import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { getCarts } from '../api/firebase';
 import CartItem from '../components/CartItem';
 import PriceCard from '../components/PriceCard';
-import { useAuth } from '../context/AuthContextProvider';
-import { IProduct } from '../interface/product';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
 import { TbEqual } from 'react-icons/tb';
 import Button from '../components/Button';
+import useCarts from '../hooks/useCarts';
 
 const DELIVERY_FEE = 3000;
 
 function MyCart() {
-  const { user } = useAuth();
   const {
-    data: products,
-    isLoading,
-    error,
-  } = useQuery<any>(['carts', user.uid], () => getCarts(user.uid));
-  const totalPrice =
+    fetchCart: { data: products },
+  } = useCarts();
+  const totalPrice: any =
     products &&
     products.reduce(
       (prev: any, cur: any) => prev + parseInt(cur.price) * cur.quantity,
       0
     );
 
-  console.log(totalPrice);
   return (
     <section className="p-4 flex flex-col">
       <p className="text-center text-xl font-bold my-3">내 장바구니</p>

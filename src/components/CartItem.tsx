@@ -2,36 +2,13 @@ import React from 'react';
 import { IProductProps } from '../interface/product';
 import { AiOutlinePlusSquare, AiOutlineMinusSquare } from 'react-icons/ai';
 import { HiTrash } from 'react-icons/hi';
-import { addOrUpdateCart, removeFromCart } from '../api/firebase';
-import { useAuth } from '../context/AuthContextProvider';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import useCarts from '../hooks/useCarts';
 
 function CartItem({
   product: { image, title, price, option, quantity },
   product,
 }: IProductProps) {
-  const { user } = useAuth();
-  const client = useQueryClient();
-  const addUpdateCart = useMutation(
-    (product: any) => {
-      return addOrUpdateCart(user.uid, product);
-    },
-    {
-      onSuccess: () => {
-        client.invalidateQueries(['carts', user.uid]);
-      },
-    }
-  );
-  const removeCart = useMutation(
-    (id: string) => {
-      return removeFromCart(user.uid, id);
-    },
-    {
-      onSuccess: () => {
-        client.invalidateQueries(['carts', user.uid]);
-      },
-    }
-  );
+  const { addUpdateCart, removeCart } = useCarts();
   const handleMinusClick = () => {
     if (product.quantity && product.quantity > 1) {
       addUpdateCart.mutate({ ...product, quantity: product.quantity - 1 });
